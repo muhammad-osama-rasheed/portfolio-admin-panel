@@ -1,0 +1,17 @@
+.box-container{
+  /* border: 1px solid #2C98F0; */
+  border: 1px dotted #2C98F0;
+  background-color: #EFF6FF;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.box-container:hover{
+  background-color: #fff;
+}

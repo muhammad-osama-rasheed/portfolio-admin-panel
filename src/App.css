@@ -1,0 +1,13 @@
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px; /* Scrollbar ki width */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2C98F0; /* Scrollbar ka color */
+  border-radius: 2px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Track ka color */
+}

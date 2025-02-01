@@ -1,0 +1,59 @@
+.heading-section{
+  margin-bottom: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999999;
+  font-weight: 500;
+  letter-spacing: 5px;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+
+.table-container{
+  /* max-height: 180px; */
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  margin-bottom: 30px;
+}
+
+.table{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-heading, .table-value{
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+.table-heading{
+color: #2C98F0;
+text-transform: uppercase;
+font-size: 13px;
+letter-spacing: 2px;
+}
+
+.table-value{
+  font-size: 12px;
+  color: #666666;
+  background-color: #EFF6FF;
+}
+
+.table-value:hover{
+  background-color: #fff;
+}
+
+.errorMessage{
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+
+
+
+
