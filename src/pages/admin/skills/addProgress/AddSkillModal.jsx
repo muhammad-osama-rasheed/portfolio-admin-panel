@@ -32,7 +32,7 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
       setBadName("Please Enter a Skill Name.");
       validName = false;
     } else if (name != "" && name.length < 2) {
-      setBadName("Please Enter a Valid Product Name.");
+      setBadName("Please Enter a Valid Skill Name.");
       validName = false;
     } else if (name != "" && name.length >= 2) {
       setBadName("");
