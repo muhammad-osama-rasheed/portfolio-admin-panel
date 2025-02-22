@@ -1,10 +1,10 @@
 .main-conatiner{
   max-width: 450px;
   padding: 20px;
-  /* box-shadow: 0 0 10px rgba(44, 152, 240, 0.5); */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(44, 152, 240, 0.2);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   border-radius: 2px;
-  margin: 0 auto;
+  margin-top: 180px;
 }
 
 .heading-section{
