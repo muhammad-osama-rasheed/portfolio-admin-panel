@@ -129,7 +129,6 @@ function Signup() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
         }}
       >
         <div className="row">
@@ -213,36 +212,36 @@ function Signup() {
                       </div>
                     )}
                   </div>
-                </div>
 
-                <div className="col-12">
-                  <div
-                    onClick={() => {
-                      if (validation()) {
-                        handleSubmit();
-                        emptyState();
-                      }
-                    }}
-                    className={styles["bg-button"]}
-                  >
-                    Signup
-                  </div>
-                </div>
-
-                <div className="col-12">
-                  <p className={`mb-0 ${styles["signup-text"]}`}>
-                    Don't have an account?{" "}
-                    <Link
-                      to="/login"
-                      style={{
-                        color: "#2C98F0",
-                        textDecoration: "none",
-                        fontWeight: "500",
+                  <div className="col-12">
+                    <div
+                      onClick={() => {
+                        if (validation()) {
+                          handleSubmit();
+                          emptyState();
+                        }
                       }}
+                      className={styles["bg-button"]}
                     >
-                      Login
-                    </Link>
-                  </p>
+                      Signup
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <p className={`mb-0 ${styles["signup-text"]}`}>
+                      Don't have an account?{" "}
+                      <Link
+                        to="/login"
+                        style={{
+                          color: "#2C98F0",
+                          textDecoration: "none",
+                          fontWeight: "500",
+                        }}
+                      >
+                        Login
+                      </Link>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

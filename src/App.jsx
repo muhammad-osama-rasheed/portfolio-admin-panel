@@ -15,7 +15,6 @@ import CheckExpiry from "./protectedRoute/CheckExpiry";
 function App() {
   return (
     <Router>
-      <CheckExpiry />
       <Routes>
         <Route
           path="/login"
@@ -36,17 +35,24 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoutedForAdmin>
-              <Home />
-            </ProtectedRoutedForAdmin>
+            <>
+              <CheckExpiry />
+              <ProtectedRoutedForAdmin>
+                <Home />
+              </ProtectedRoutedForAdmin>
+            </>
           }
         />
         <Route
           path="/admin"
           element={
-            <ProtectedRoutedForAdmin>
-              <Admin />
-            </ProtectedRoutedForAdmin>
+            <>
+              <CheckExpiry />
+              <ProtectedRoutedForAdmin>
+                <Admin />
+              </ProtectedRoutedForAdmin>
+              <CheckExpiry />
+            </>
           }
         />
         <Route path="/*" element={<NoPage />} />
