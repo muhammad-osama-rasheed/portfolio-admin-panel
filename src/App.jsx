@@ -9,7 +9,7 @@ import Signup from "./pages/admin/auth/signup/Signup";
 import ProtectedRoutedForAdmin from "./protectedRoute/ProtectedRouteForAdmin";
 import NoPage from "./pages/nopage/NoPage";
 import RefreshHandler from "./protectedRoute/RefreshHandler";
-import AuthCheck from "./protectedRoute/authCheck";
+import AuthCheck from "./protectedRoute/AuthCheck";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
