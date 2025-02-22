@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BgButton from "../../../components/BgButton/BgButton";
-import styles from "./certificate.module.css";
+import styles from "./Certificate.module.css";
 import CreateCertificateModal from "./modals/CreateCertificateModal";
 import UpdateCertificateModal from "./modals/UpdateCertificateModal";
 import DeleteCertificateModal from "./modals/DeleteCertificateModal";

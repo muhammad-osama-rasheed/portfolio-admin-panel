@@ -300,7 +300,6 @@ function UpdateSkillModal({
                         objectFit: "cover",
                         borderRadius: "2px",
                         border: "1px dotted #2C98F0",
-                        borderRadius: "2px",
                         padding: "5px",
                       }}
                       src={`data:image/png;base64,${image}`}
