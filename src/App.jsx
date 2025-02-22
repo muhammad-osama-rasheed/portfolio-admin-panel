@@ -9,13 +9,13 @@ import Signup from "./pages/admin/auth/signup/Signup";
 import ProtectedRoutedForAdmin from "./protectedRoute/ProtectedRouteForAdmin";
 import NoPage from "./pages/nopage/NoPage";
 import RefreshHandler from "./protectedRoute/RefreshHandler";
-import AuthCheck from "./protectedRoute/AuthCheck";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CheckExpiry from "./protectedRoute/CheckExpiry";
 
 function App() {
   return (
     <Router>
-      <AuthCheck />
+      <CheckExpiry />
       <Routes>
         <Route
           path="/login"

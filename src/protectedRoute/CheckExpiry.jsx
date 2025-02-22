@@ -1,8 +1,9 @@
+import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-function AuthCheck() {
+function CheckExpiry() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,4 +35,4 @@ function AuthCheck() {
   return null;
 }
 
-export default AuthCheck;
+export default CheckExpiry;
