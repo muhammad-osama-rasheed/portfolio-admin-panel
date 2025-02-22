@@ -1,0 +1,47 @@
+.bg-button{
+  width: 200px;
+  padding: 6px;
+  background-color: #2C98F0;
+  border: 1px solid #2C98F0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.border-button{
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #2C98F0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #2C98F0;
+  text-align: center;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.border-button:hover{
+  background-color: #2C98F0;
+  color: #fff;
+}
+
+.bg-button:hover{
+  border: 1px solid #2C98F0;
+  color: #2C98F0;
+  background-color: #fff;
+
+}
+
+.cancel-icon:hover{
+  opacity: 0.5;
+}
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import BgButton from "../../../../components/BgButton/BgButton";
 import BorderButton from "../../../../components/BorderButton/BorderButton";
@@ -11,12 +11,15 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("");
+  const [tempImage, setTempImage] = useState("");
 
   const [badName, setBadName] = useState("");
   const [badCategory, setBadCategory] = useState("");
   const [badImage, setBadImage] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const categories = ["frontend", "backend", "language", "database", "other"];
 
@@ -69,7 +72,6 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
 
   const handleSubmit = async () => {
     try {
-      setShowAddSkillModal(false);
       setLoading(true);
 
       let formData = new FormData();
@@ -77,22 +79,32 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
       formData.append("category", category);
       formData.append("image", image);
 
-      const response = await fetch("https://osamaapi.vercel.app/skills", {
+      const response = await fetch(import.meta.env.VITE_API_URL_SKILLS, {
         method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("jwtToken"),
+        },
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to add skill");
-      } else {
+      const result = await response.json();
+      const { success, message } = result;
+
+      if (success) {
         getskills();
-        toast.success("Skill added successfully.");
+        toast.success(message || "Skill added successfully.");
         emptyState();
+        setShowAddSkillModal(false);
+      } else {
+        toast.error(message || "Failed to add Skill.");
+        emptyState();
+        setShowAddSkillModal(false);
       }
     } catch (error) {
       console.log("Error submitting skill: ", error);
-      setLoading(false);
       toast.error("Failed to add Skill.");
+      emptyState();
+      setShowAddSkillModal(false);
     } finally {
       setLoading(false);
     }
@@ -105,6 +117,15 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
     setBadName("");
     setBadCategory("");
     setBadImage("");
+    setTempImage("");
+  };
+
+  const handleRemoveImage = () => {
+    setImage("");
+    setTempImage("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -135,7 +156,7 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
         </Modal.Header>
         <Modal.Body>
           <div className="container">
-            <div className="row">
+            <div style={{ marginBottom: "20px" }} className="row">
               <div className="col-12">
                 <CustomInput
                   title={"Name"}
@@ -210,7 +231,11 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
                 <input
                   style={{ borderColor: badImage != "" ? "red" : "#ccc" }}
                   type="file"
-                  onChange={(event) => setImage(event.target.files[0])}
+                  ref={fileInputRef}
+                  onChange={(event) => {
+                    setImage(event.target.files[0]);
+                    setTempImage(URL.createObjectURL(event.target.files[0]));
+                  }}
                   accept="image/png"
                   className={styles["file-input"]}
                   placeholder="Upload Product Image"
@@ -227,6 +252,46 @@ function AddSkillModal({ showAddSkillModal, setShowAddSkillModal, getskills }) {
                       />
                     </div>
                     <div className={styles.errorMessage}>{badImage}</div>
+                  </div>
+                )}
+                {tempImage != "" && tempImage && (
+                  <div
+                    style={{
+                      width: "max-content",
+                      position: "relative",
+                      marginTop: "15px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        objectFit: "cover",
+                        borderRadius: "2px",
+                        border: "1px dotted #2C98F0",
+                        padding: "5px",
+                      }}
+                      src={tempImage}
+                      alt="icon"
+                    />
+                    <img
+                      onClick={handleRemoveImage}
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        position: "absolute",
+                        top: "-8px",
+                        right: "-8px",
+                        cursor: "pointer",
+                        backgroundColor: "#fff",
+                        borderRadius: "50%",
+                        border: "1px dotted #2C98F0",
+                        padding: "2px",
+                        color: "#2C98F0",
+                      }}
+                      src="/images/junk.png"
+                      alt=""
+                    />
                   </div>
                 )}
               </div>

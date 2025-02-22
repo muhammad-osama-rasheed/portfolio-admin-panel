@@ -5,12 +5,13 @@
   color: #fff;
   border-radius: 2px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 14px;
   text-align: center;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-family: "Quicksand", Arial, sans-serif;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
 }
+
 
 .button:hover{
   opacity: 0.8;

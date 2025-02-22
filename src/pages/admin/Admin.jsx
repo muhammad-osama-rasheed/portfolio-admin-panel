@@ -7,10 +7,16 @@ import Education from "./education/Education";
 import Projects from "./project/Projects";
 import Blogs from "./blog/Blogs";
 import Contact from "./contact/Contact";
+import ProfileModal from "./profile/ProfileModal";
+import Service from "./service/Service";
+import Certificate from "./certificate/Certificate";
 
 function Admin() {
   const [active, setActive] = useState("about");
-  const [progress, setProgress] = useState("");
+
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profile, setProfile] = useState("");
+
   const data = [
     {
       id: 1,
@@ -42,23 +48,38 @@ function Admin() {
       title: "contact",
       icon: "/images/phone.png",
     },
+    {
+      id: 7,
+      title: "service",
+      icon: "/images/service.png",
+    },
+    {
+      id: 8,
+      title: "certificate",
+      icon: "/images/certificate.png",
+    },
   ];
 
-  const getProgress = async () => {
+  const getProfile = async () => {
     try {
-      const response = await fetch("https://osamaapi.vercel.app/progress", {
+      const response = await fetch("https://osamaapi.vercel.app/profile", {
         method: "GET",
       });
-      const data = await response.json();
+      const result = await response.json();
+      const { success, data } = result;
 
-      setProgress(data);
+      if (success) {
+        setProfile(data[0]);
+      } else {
+        setProfile("");
+      }
     } catch (error) {
-      console.error("Error fetching progress: ", error);
+      console.error("Error fetching profile: ", error);
     }
   };
 
   useEffect(() => {
-    getProgress();
+    getProfile();
   }, []);
 
   return (
@@ -68,18 +89,36 @@ function Admin() {
           <div className={styles["admin-heading-container"]}>
             <h4 style={{ fontSize: "18px", margin: "0px" }}>Admin Dashboard</h4>
           </div>
+
           <div className={styles["admin-info-container"]}>
-            <img
-              className="img-fluid"
-              src="/images/mypic.jpg"
-              alt="osama"
-              style={{
-                width: "60px",
-                height: "60px",
-                objectFit: "contain",
-                borderRadius: "50%",
-              }}
-            />
+            <div className={styles["profile-container"]}>
+              <img
+                className="img-fluid"
+                src={
+                  profile && profile !== ""
+                    ? `data:image/*;base64,${profile.image}`
+                    : "/images/mypic.jpg"
+                }
+                alt="osama"
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  objectFit: "contain",
+                  borderRadius: "50%",
+                }}
+              />
+              <div
+                onClick={() => setShowProfileModal(true)}
+                className={styles["plus-icon"]}
+              >
+                <img
+                  style={{ width: "12px", height: "12px" }}
+                  src="/images/upload.png"
+                  alt="icon"
+                />
+              </div>
+            </div>
+
             <div className="text-center">
               <p
                 style={{ letterSpacing: "5px" }}
@@ -90,12 +129,15 @@ function Admin() {
                 </span>
               </p>
               <p className={`mb-0 ${styles["text"]}`}>
-                Name: <span style={{ color: "#2C98F0" }}>Muhammad Osama</span>
+                Name:{" "}
+                <span style={{ color: "#2C98F0" }}>
+                  {localStorage.getItem("adminName") || "Muhammad Osama"}
+                </span>
               </p>
               <p className={`mb-0 ${styles["text"]}`}>
                 Email:{" "}
                 <span style={{ color: "#2C98F0" }}>
-                  osamarasheed221@gmail.com
+                  {localStorage.getItem("adminEmail")}
                 </span>
               </p>
             </div>
@@ -120,17 +162,25 @@ function Admin() {
           <div className="row">
             <div className="col-12">
               {active == "about" && <About />}
-              {active == "skills" && (
-                <Skills progress={progress} getProgress={getProgress} />
-              )}
+              {active == "skills" && <Skills />}
               {active == "education" && <Education />}
               {active == "projects" && <Projects />}
               {active == "blogs" && <Blogs />}
               {active == "contact" && <Contact />}
+              {active == "service" && <Service />}
+              {active == "certificate" && <Certificate />}
             </div>
           </div>
         </div>
       </div>
+
+      <ProfileModal
+        showProfileModal={showProfileModal}
+        setShowProfileModal={setShowProfileModal}
+        profile={profile ? profile.image : ""}
+        profileId={profile ? profile._id : ""}
+        getProfile={getProfile}
+      />
     </div>
   );
 }

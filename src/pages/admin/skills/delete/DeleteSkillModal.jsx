@@ -23,26 +23,38 @@ function DeleteSkillModal({
 
   const handleDelete = async () => {
     try {
-      setShowDeleteSkillModal(false);
       setLoading(true);
       const response = await fetch(
-        `https://osamaapi.vercel.app/skills/${itemId}`,
+        `${import.meta.env.VITE_API_URL_SKILLS}/${itemId}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+          },
         }
       );
-      if (response.ok) {
+
+      const result = await response.json();
+      const { success, message } = result;
+
+      if (success) {
         getskills();
-        setLoading(false);
-        toast.success("Skill Deleted successfully.");
+        toast.success(message || "Skill Deleted successfully.");
+        setItemId("");
+        setShowDeleteSkillModal(false);
       } else {
-        setLoading(false);
-        toast.error("Error deleting a Skill.");
+        toast.error(message || "Failed to delete a Skill.");
+        setItemId("");
+        setShowDeleteSkillModal(false);
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
       toast.error("Error deleting a Skill.");
+      setItemId("");
+      setShowDeleteSkillModal(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,7 +91,13 @@ function DeleteSkillModal({
               color: "#666666",
             }}
           >
-            Are you sure you want to delete {item ? item.name : "this Skill"}?
+            Are you sure you want to delete{" "}
+            {item ? (
+              <span style={{ color: "#2C98F0" }}>{item.name}</span>
+            ) : (
+              "this Skill"
+            )}
+            ?
           </span>
         </Modal.Body>
         <Modal.Footer>

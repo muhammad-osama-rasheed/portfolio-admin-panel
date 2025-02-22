@@ -10,35 +10,47 @@ function DeleteModal({ id, getProgress, showDeleteModal, setShowDeleteModal }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (id) {
+    if (showDeleteModal && id) {
       setItemId(id);
     } else {
       setItemId("");
     }
-  }, [id]);
+  }, [showDeleteModal, id]);
 
   const handleDelete = async () => {
     try {
-      setShowDeleteModal(false);
       setLoading(true);
       const response = await fetch(
-        `https://osamaapi.vercel.app/progress/${itemId}`,
+        `${import.meta.env.VITE_API_URL_PROGRESS_BAR}/${itemId}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+          },
         }
       );
-      if (response.ok) {
+
+      const result = await response.json();
+      const { success, message } = result;
+
+      if (success) {
         getProgress();
-        setLoading(false);
-        toast.success("Progress Item deleted successfully.");
+        setShowDeleteModal(false);
+        setItemId("");
+        toast.success(message || "Progress bar deleted successfully.");
       } else {
-        setLoading(false);
-        toast.error("Error deleting the Progress Item.");
+        setShowDeleteModal(false);
+        setItemId("");
+        toast.success(message || "Failed to delete Progress bar.");
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error("Error deleting the Progress Item.");
+      toast.error("Error deleting the Progress bar.");
+      setShowDeleteModal(false);
+      setItemId("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +77,7 @@ function DeleteModal({ id, getProgress, showDeleteModal, setShowDeleteModal }) {
               letterSpacing: "2px",
             }}
           >
-            Delete Progress Item
+            Delete Progress bar
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -75,7 +87,7 @@ function DeleteModal({ id, getProgress, showDeleteModal, setShowDeleteModal }) {
               color: "#666666",
             }}
           >
-            Are you sure you want to delete this Progress Item?
+            Are you sure you want to delete this Progress bar?
           </span>
         </Modal.Body>
         <Modal.Footer>

@@ -41,3 +41,26 @@
     margin-top: 50px;
 }
 
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.plus-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: #2C98F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.plus-icon:hover{
+  opacity: 0.5;
+}

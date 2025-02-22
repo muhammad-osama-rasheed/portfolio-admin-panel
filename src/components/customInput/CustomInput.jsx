@@ -26,7 +26,7 @@ function CustomInput({
       <div className="d-flex align-items-center">
         {type === "textarea" ? (
           <textarea
-            style={{ borderColor: bad ? "red" : "#9e9e9e" }}
+            style={{ borderColor: bad ? "red" : "#d1d1d1" }}
             className={`text-dark ${styles["custom-input"]}`}
             name={name}
             value={value}

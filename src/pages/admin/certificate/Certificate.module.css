@@ -1,0 +1,82 @@
+.heading-section{
+  margin-bottom: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999999;
+  font-weight: 500;
+  letter-spacing: 5px;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+.table-container{
+  max-height: 1000px;
+  width: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  margin-bottom: 30px;
+}
+
+.table{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-heading, .table-value{
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-family: "Quicksand", Arial, sans-serif;
+}
+
+.table-heading{
+color: #2C98F0;
+text-transform: uppercase;
+font-size: 13px;
+letter-spacing: 2px;
+}
+
+.table-value{
+  font-size: 12px;
+  color: #666666;
+  background-color: #EFF6FF;
+}
+
+.table-value:hover{
+  background-color: #fff;
+}
+
+.errorMessage{
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.file-input{
+  border: 0.4px solid #CCC;
+  margin-top: 20px;
+  /* margin-bottom: 10px; */
+  border-radius: 2px;
+  width: 100%;
+  font-family: "Quicksand", Arial, sans-serif;
+  font-size: 14px;
+}
+
+.file-input::-webkit-file-upload-button{
+  background-color: #2C98F0 ;
+  border: none;
+  /* border-radius: 8px; */
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer; 
+  font-size: 14px;
+}
+
+.file-input::-webkit-file-upload-button:hover{
+ opacity: 0.8;
+}
+
+.file-input:focus {
+  outline: none;
+  border: transparent;
+  box-shadow: 0 0 5px rgba(44, 152, 240, 0.7);
+}

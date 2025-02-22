@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import BorderButton from "../../../../components/BorderButton/BorderButton";
 import BgButton from "../../../../components/BgButton/BgButton";
@@ -18,12 +18,14 @@ function UpdateSkillModal({
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("");
   const [newImg, setNewImg] = useState("");
+  const [tempImage, setTempImage] = useState("");
 
   const [badName, setBadName] = useState("");
   const [badCategory, setBadCategory] = useState("");
   const [badImage, setBadImage] = useState("");
 
   const [loading, setLoading] = useState("");
+  const fileInputRef = useRef(null);
 
   const categories = ["frontend", "backend", "language", "database", "other"];
 
@@ -54,7 +56,10 @@ function UpdateSkillModal({
       validCategory = true;
     }
 
-    if (newImg && newImg != "") {
+    if (image === "" && newImg === "") {
+      setBadImage("Please Select an Image.");
+      validImage = false;
+    } else if (newImg && newImg != "") {
       const fileExtension = newImg.name.split(".").pop().toLowerCase();
       if (!validImageExtensions.includes(fileExtension)) {
         setBadImage("Please select a valid image file (.png)");
@@ -101,23 +106,57 @@ function UpdateSkillModal({
       if (newImg && newImg != "") {
         formData.append("newimage", newImg);
       }
-      const response = await fetch(`https://osamaapi.vercel.app/skills/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL_SKILLS}/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: localStorage.getItem("jwtToken"),
+          },
+          body: formData,
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error("Failed to update skill.");
+      const result = await response.json();
+      const { success, message } = result;
+
+      if (success) {
+        toast.success(message || "Skill updated successfully.");
+        getskills();
+        setShowUpdateSkillModal(false);
+        stateEmpty();
+      } else {
+        toast.error(message || "Failed to update a skill.");
+        setShowUpdateSkillModal(false);
+        stateEmpty();
       }
-
-      setShowUpdateSkillModal(false);
-      getskills();
-      toast.success("Skill updated successfully.");
     } catch (error) {
       console.log(error);
       toast.error("Failed to Update: ", error.message);
+      setShowUpdateSkillModal(false);
+      stateEmpty();
     } finally {
       setLoading(false);
+    }
+  };
+
+  const stateEmpty = () => {
+    setName("");
+    setCategory("");
+    setImage("");
+    setNewImg("");
+    setBadName("");
+    setBadCategory("");
+    setBadImage("");
+    setId("");
+    setTempImage("");
+  };
+
+  const handleRemoveImage = () => {
+    setNewImg("");
+    setTempImage("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -126,9 +165,9 @@ function UpdateSkillModal({
       {loading && <Loader />}
       <Modal
         show={showUpdateSkillModal}
-        centered
         onHide={() => {
           setShowUpdateSkillModal(false);
+          stateEmpty();
         }}
         keyboard={true}
         backdrop="static"
@@ -149,7 +188,7 @@ function UpdateSkillModal({
         </Modal.Header>
         <Modal.Body>
           <div className="container">
-            <div className="row">
+            <div style={{ marginBottom: "20px" }} className="row">
               <div className="col-12">
                 <CustomInput
                   type={"text"}
@@ -220,35 +259,15 @@ function UpdateSkillModal({
                 )}
               </div>
 
-              {image != "" && image && (
-                <div className="col-12 mt-3">
-                  <div className="d-flex align-items-center">
-                    <img
-                      style={{ width: "30px", height: "30px" }}
-                      src={`data:image/png;base64,${image}`}
-                      alt="icon"
-                    />
-                    <p
-                      style={{
-                        color: "#2C98F0",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        fontFamily: "Quicksand, Arial, sans-serif",
-                      }}
-                      className="mb-0 ms-2"
-                    >
-                      Current Icon
-                    </p>
-                  </div>
-                </div>
-              )}
-
               <div className="col-12">
                 <input
                   style={{ borderColor: badImage != "" ? "red" : "#ccc" }}
                   type="file"
-                  onChange={(event) => setNewImg(event.target.files[0])}
-                  accept="image/png"
+                  onChange={(event) => {
+                    setNewImg(event.target.files[0]);
+                    setTempImage(URL.createObjectURL(event.target.files[0]));
+                    setImage("");
+                  }}
                   className={styles["file-input"]}
                   placeholder="Upload Product Image"
                   name={"newimage"}
@@ -266,6 +285,89 @@ function UpdateSkillModal({
                     <div className={styles.errorMessage}>{badImage}</div>
                   </div>
                 )}
+                {image != "" && image && (
+                  <div
+                    style={{
+                      width: "max-content",
+                      position: "relative",
+                      marginTop: "15px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        objectFit: "cover",
+                        borderRadius: "2px",
+                        border: "1px dotted #2C98F0",
+                        borderRadius: "2px",
+                        padding: "5px",
+                      }}
+                      src={`data:image/png;base64,${image}`}
+                      alt="icon"
+                    />
+                    <img
+                      onClick={() => {
+                        setImage("");
+                      }}
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        position: "absolute",
+                        top: "-8px",
+                        right: "-8px",
+                        cursor: "pointer",
+                        backgroundColor: "#fff",
+                        borderRadius: "50%",
+                        border: "1px dotted #2C98F0",
+                        padding: "2px",
+                        color: "#2C98F0",
+                      }}
+                      src="/images/junk.png"
+                      alt=""
+                    />
+                  </div>
+                )}
+                {tempImage != "" && tempImage && (
+                  <div
+                    style={{
+                      width: "max-content",
+                      position: "relative",
+                      marginTop: "15px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        objectFit: "cover",
+                        borderRadius: "2px",
+                        border: "1px dotted #2C98F0",
+                        padding: "5px",
+                      }}
+                      src={tempImage}
+                      alt="icon"
+                    />
+                    <img
+                      onClick={handleRemoveImage}
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        position: "absolute",
+                        top: "-8px",
+                        right: "-8px",
+                        cursor: "pointer",
+                        backgroundColor: "#fff",
+                        borderRadius: "50%",
+                        border: "1px dotted #2C98F0",
+                        padding: "2px",
+                        color: "#2C98F0",
+                      }}
+                      src="/images/junk.png"
+                      alt=""
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -275,6 +377,7 @@ function UpdateSkillModal({
             text={"cancel"}
             onClick={() => {
               setShowUpdateSkillModal(false);
+              stateEmpty();
             }}
           />
           <BgButton

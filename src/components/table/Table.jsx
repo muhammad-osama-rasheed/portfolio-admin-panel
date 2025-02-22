@@ -25,55 +25,65 @@ function Table({
             </tr>
           </thead>
           <tbody>
-            {data
-              ? data.map((item, index) => (
-                  <tr key={index}>
-                    <td className={style["table-value"]}>{index + 1}</td>
-                    <td className={style["table-value"]}>{item.name}</td>
-                    <td className={style["table-value"]}>
+            {data && data.length > 0 ? (
+              data.map((item, index) => (
+                <tr key={index}>
+                  <td className={style["table-value"]}>{index + 1}</td>
+                  <td className={style["table-value"]}>{item.name}</td>
+                  <td className={style["table-value"]}>
+                    <img
+                      src={`data:image/png;base64,${item.image}`}
+                      alt={item.name}
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </td>
+                  <td className={style["table-value"]}>{item.category}</td>
+                  <td className={style["table-value"]}>
+                    <div className="d-flex justify-content-center align-items-center">
                       <img
-                        src={`data:image/png;base64,${item.image}`}
-                        alt={item.name}
-                        style={{ width: "20px", height: "20px" }}
+                        onClick={() => {
+                          setShowUpdateSkillModal(true);
+                          setSkillItem(item);
+                        }}
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                          marginRight: "10px",
+                          cursor: "pointer",
+                        }}
+                        src="/images/edit.png"
+                        alt="icon"
                       />
-                    </td>
-                    <td className={style["table-value"]}>{item.category}</td>
-                    <td className={style["table-value"]}>
-                      <div className="d-flex justify-content-center align-items-center">
-                        <img
-                          onClick={() => {
-                            setShowUpdateSkillModal(true);
-                            setSkillItem(item);
-                          }}
-                          style={{
-                            width: "16px",
-                            height: "16px",
-                            marginRight: "10px",
-                            cursor: "pointer",
-                          }}
-                          src="/images/edit.png"
-                          alt="icon"
-                        />
 
-                        <img
-                          onClick={() => {
-                            setShowDeleteSkillModal(true);
-                            setSkillData(item);
-                          }}
-                          style={{
-                            width: "18px",
-                            height: "18px",
-                            marginLeft: "10px",
-                            cursor: "pointer",
-                          }}
-                          src="/images/junk.png"
-                          alt="icon"
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              : ""}
+                      <img
+                        onClick={() => {
+                          setShowDeleteSkillModal(true);
+                          setSkillData(item);
+                        }}
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          marginLeft: "10px",
+                          cursor: "pointer",
+                        }}
+                        src="/images/junk.png"
+                        alt="icon"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  style={{ fontSize: "14px" }}
+                  colSpan="5"
+                  className={`${style["table-value"]}`}
+                >
+                  Record Not Found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
