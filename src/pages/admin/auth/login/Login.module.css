@@ -4,14 +4,14 @@
   box-shadow: 0 0 10px rgba(44, 152, 240, 0.2);
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   border-radius: 2px;
-  margin-top: 180px;
+  margin-top: 150px;
 }
 
 .heading-section{
   margin-bottom: 15px;
   font-size: 16px;
   text-transform: uppercase;
-  color: #999999;
+  color: #2C98F0;
   font-weight: 500;
   letter-spacing: 3px;
   font-family: "Quicksand", Arial, sans-serif;
